@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class HeroService {
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   getFeaturedHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>('/api/featured').pipe(
@@ -21,7 +22,9 @@ export class HeroService {
   }
 
   getHeroes(): Observable<Hero[]> {
+    const currentUrl = this.router.routerState.snapshot.url;
 
+    // catch error, and respond
     return this.http.get<Hero[]>('/api/heroes').pipe(
       map(res => res || [])
     );
