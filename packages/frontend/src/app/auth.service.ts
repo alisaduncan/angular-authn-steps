@@ -8,15 +8,18 @@ import { map, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-
-  public isAuthenticated$ = of(false);
+  private oktaAuth = inject(OKTA_AUTH);
+  private oktaAuthStateService = inject(OktaAuthStateService);
+  public isAuthenticated$ = this.oktaAuthStateService.authState$.pipe(
+    map((authState: AuthState) => authState.isAuthenticated ?? false)
+  );
 
 
   public async login(): Promise<void> {
-    return;
+    return this.oktaAuth.signInWithRedirect();
   }
 
   public async logout(): Promise<boolean> {
-    return false;
+    return this.oktaAuth.signOut();
   }
 }
