@@ -1,5 +1,5 @@
 import { CanActivateFn } from '@angular/router';
-import { AuthService } from './auth.service';
+import { ACR_VALUES_2FA, AuthService } from './auth.service';
 import { inject } from '@angular/core';
 
 export const authGuard: CanActivateFn = (route, state, authService = inject(AuthService)) => {
@@ -7,5 +7,10 @@ export const authGuard: CanActivateFn = (route, state, authService = inject(Auth
 };
 
 export const stepUpGuard: CanActivateFn = (route, state, authService = inject(AuthService)) => {
+  if (authService.idTokenAcrClaim() === route.data['acrVal']) {
+    return true;
+  }
+
+  authService.login(route.data['acrVal'], state.url);
   return false;
 };
