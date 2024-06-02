@@ -6,6 +6,7 @@ import { HttpBackend, HttpClient, provideHttpClient, withInterceptors } from '@a
 import { OktaAuth } from '@okta/okta-auth-js';
 import { OktaAuthConfigService, OktaAuthModule } from '@okta/okta-angular';
 import { tap, take } from 'rxjs';
+import { authInterceptor } from './auth.interceptor';
 
 function configInitializer(httpBackend: HttpBackend, configService: OktaAuthConfigService): () => void {
   return () =>
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes),
     provideHttpClient(withInterceptors([
+      authInterceptor
     ])),
     { provide: APP_INITIALIZER, useFactory: configInitializer, deps:[HttpBackend, OktaAuthConfigService], multi: true }
   ]

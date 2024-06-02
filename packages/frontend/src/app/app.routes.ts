@@ -3,10 +3,11 @@ import { HeroListComponent } from './heroes-list/hero-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminDashboardComponent } from './admin/admin.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-    { path: 'admin', component: AdminDashboardComponent },
-    { path: 'heroes', component: HeroListComponent },
+    { path: 'admin', component: AdminDashboardComponent, canActivate:[authGuard] },
+    { path: 'heroes', component: HeroListComponent, canActivate: [authGuard] },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'login/callback', component: OktaCallbackComponent },
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' }

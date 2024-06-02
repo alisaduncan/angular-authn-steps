@@ -13,7 +13,10 @@ export class AuthService {
   public isAuthenticated$ = this.oktaAuthStateService.authState$.pipe(
     map((authState: AuthState) => authState.isAuthenticated ?? false)
   );
-
+  
+  public accessToken(): string {
+    return this.oktaAuth.getAccessToken() ?? '';
+  }
 
   public async login(): Promise<void> {
     return this.oktaAuth.signInWithRedirect();
