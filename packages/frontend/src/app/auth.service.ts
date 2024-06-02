@@ -18,6 +18,10 @@ export class AuthService {
     return this.oktaAuth.getAccessToken() ?? '';
   }
 
+  public idTokenClaim(): string {
+    return decodeToken(this.oktaAuth.getIdToken() ?? '').payload.name ?? '';
+  }
+
   public async login(): Promise<void> {
     return this.oktaAuth.signInWithRedirect();
   }
