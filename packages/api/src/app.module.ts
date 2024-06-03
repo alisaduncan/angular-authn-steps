@@ -18,8 +18,8 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
     .apply(
-      AuthMiddleware
-      // StepupMiddlewareCreator({acrValue: 'urn:okta:loa:2fa:any'})
+      AuthMiddleware,
+      StepupMiddlewareCreator({acrValue: 'urn:okta:loa:2fa:any'})
     ).forRoutes('heroes');
   }
 }

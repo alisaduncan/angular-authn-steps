@@ -26,7 +26,13 @@ export function StepupMiddlewareCreator(options: StepupAuthChallengeRequiredOpti
       const header = 'WWW-Authenticate';
 
       // get access token and verify ACR claim
+      const acrClaim = await this.authService.verifyAccessTokenAndGetAcrClaim(accessToken);
+  
       // set header error and return
+      if (acrClaim === '' || acrClaim !== acrValue) {
+        res.setHeader(header, errorCode);
+        return res.status(401).send();
+      }
 
       next();
     }
